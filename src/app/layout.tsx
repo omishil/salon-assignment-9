@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { DM_Sans, DM_Serif_Display, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
 import Navbar from "@/components/layout/Navbar";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
@@ -16,9 +16,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const dmSerif = DM_Serif_Display({
+  variable: "--font-dm-serif",
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -35,9 +36,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${geistMono.variable} ${dmSerif.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-mauve-900">
+      <body className="flex min-h-full flex-col bg-white text-purple-900">
         <Navbar />
         <div className="flex flex-1 flex-col">{children}</div>
         <Toaster

@@ -1,7 +1,9 @@
+import Banner from "@/components/home/Banner";
+
 export default function Home() {
   return (
-    <div className="">
-     
-    </div>
+    <main className="flex-1">
+      <Banner />
+    </main>
   );
 }

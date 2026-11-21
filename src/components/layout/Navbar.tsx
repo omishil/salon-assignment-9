@@ -24,11 +24,11 @@ const navLinks = [
 function Logo() {
   return (
     <Link href="/" className="flex shrink-0 items-center gap-2.5">
-      <span className="grid size-9 place-items-center rounded-full bg-primary text-primary-foreground">
+      <span className="grid size-9 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15">
         <Scissors className="size-[18px]" strokeWidth={2.2} />
       </span>
-      <span className="font-display text-2xl font-semibold tracking-tight text-mauve-950">
-        Salon<span className="text-mauve-600">Book</span>
+      <span className="font-display text-2xl font-semibold tracking-tight text-white">
+        Salon<span className="text-purple-300">Book</span>
       </span>
     </Link>
   );
@@ -43,7 +43,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-purple-950/95 text-white backdrop-blur">
       <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-[4.5rem] lg:px-8">
         <Logo />
 
@@ -55,8 +55,8 @@ export default function Navbar() {
               className={cn(
                 "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
                 isActive(link.href)
-                  ? "bg-primary text-primary-foreground"
-                  : "text-mauve-700 hover:bg-muted hover:text-mauve-950",
+                  ? "bg-white text-purple-950"
+                  : "text-white/75 hover:bg-white/10 hover:text-white",
               )}
             >
               {link.label}
@@ -65,10 +65,19 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 md:flex">
-          <Button asChild variant="ghost" size="lg" className="rounded-full">
+          <Button
+            asChild
+            variant="ghost"
+            size="lg"
+            className="rounded-full text-white hover:bg-white/10 hover:text-white"
+          >
             <Link href="/signin">Sign In</Link>
           </Button>
-          <Button asChild size="lg" className="rounded-full">
+          <Button
+            asChild
+            size="lg"
+            className="rounded-full bg-white text-purple-950 hover:bg-purple-100"
+          >
             <Link href="/signup">
               <CalendarDays className="size-4" />
               Sign Up
@@ -82,7 +91,7 @@ export default function Navbar() {
               variant="outline"
               size="icon"
               aria-label="Open menu"
-              className="size-10 rounded-full md:hidden"
+              className="size-10 rounded-full border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white md:hidden"
             >
               <Menu className="size-5" />
             </Button>
@@ -105,7 +114,7 @@ export default function Navbar() {
                       "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
                       isActive(link.href)
                         ? "bg-primary text-primary-foreground"
-                        : "text-mauve-700 hover:bg-muted hover:text-mauve-950",
+                        : "text-purple-700 hover:bg-muted hover:text-purple-950",
                     )}
                   >
                     {link.label}
