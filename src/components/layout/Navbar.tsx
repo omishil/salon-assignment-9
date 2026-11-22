@@ -33,7 +33,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
+const baseNavLinks = [
   { label: "Home", href: "/" },
   { label: "Browse Services", href: "/services" },
 ];
@@ -102,6 +102,10 @@ export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
 
   const user = session?.user;
+
+  const navLinks = user
+    ? [...baseNavLinks, { label: "Dashboard", href: "/dashboard" }]
+    : baseNavLinks;
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
