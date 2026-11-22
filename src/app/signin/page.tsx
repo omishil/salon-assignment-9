@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 import AuthField from "@/components/auth/AuthField";
 import AuthShell from "@/components/auth/AuthShell";
+import GoogleButton from "@/components/auth/GoogleButton";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -68,6 +69,16 @@ export default function SignInPage() {
           Sign in
           <ArrowRight className="size-4" />
         </Button>
+
+        <div className="relative py-1 text-center text-xs text-purple-500">
+          <span
+            aria-hidden
+            className="absolute inset-x-0 top-1/2 h-px bg-purple-100"
+          />
+          <span className="relative bg-white px-3">or continue with</span>
+        </div>
+
+        <GoogleButton />
       </form>
     </AuthShell>
   );
