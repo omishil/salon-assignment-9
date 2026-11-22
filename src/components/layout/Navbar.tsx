@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   CalendarDays,
   ChevronDown,
+  LayoutDashboard,
   LogOut,
   Menu,
   Scissors,
@@ -103,10 +104,6 @@ export default function Navbar() {
 
   const user = session?.user;
 
-  const navLinks = user
-    ? [...baseNavLinks, { label: "Dashboard", href: "/dashboard" }]
-    : baseNavLinks;
-
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -131,7 +128,7 @@ export default function Navbar() {
         <Logo />
 
         <div className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
+          {baseNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -172,6 +169,12 @@ export default function Navbar() {
                   </span>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
+                    <LayoutDashboard />
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem variant="destructive" onSelect={handleLogout}>
                   <LogOut />
                   Log out
@@ -223,7 +226,7 @@ export default function Navbar() {
             </SheetHeader>
 
             <nav className="flex flex-col gap-1 px-3">
-              {navLinks.map((link) => (
+              {baseNavLinks.map((link) => (
                 <SheetClose asChild key={link.href}>
                   <Link
                     href={link.href}
@@ -260,6 +263,15 @@ export default function Navbar() {
                       </p>
                     </div>
                   </div>
+                  <SheetClose asChild>
+                    <Link
+                      href="/dashboard"
+                      className={cn(buttonVariants({ variant: "outline" }), "w-full")}
+                    >
+                      <LayoutDashboard className="size-4" />
+                      Dashboard
+                    </Link>
+                  </SheetClose>
                   <Button
                     type="button"
                     variant="outline"

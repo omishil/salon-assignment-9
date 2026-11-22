@@ -1,45 +1,147 @@
 import Link from "next/link";
-import { ArrowUpRight, Scissors } from "lucide-react";
+import {
+  ArrowUpRight,
+  Brush,
+  Flower2,
+  Hand,
+  Palette,
+  Scissors,
+  Smile,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
+
+export type CategorySummary = {
+  name: string;
+  count: number;
+};
+
+type CategoryStyle = {
+  icon: LucideIcon;
+  gradient: string;
+  description: string;
+};
+
+const categoryStyles: Record<string, CategoryStyle> = {
+  "Haircut & Styling": {
+    icon: Scissors,
+    gradient: "from-purple-500 to-fuchsia-500",
+    description: "Fresh cuts, blowouts, and everyday shape.",
+  },
+  "Hair Coloring": {
+    icon: Palette,
+    gradient: "from-fuchsia-500 to-pink-500",
+    description: "Rich colour, highlights, and tonal refreshes.",
+  },
+  "Hair Treatment": {
+    icon: Sparkles,
+    gradient: "from-violet-500 to-purple-600",
+    description: "Repair, hydration, and shine-boosting care.",
+  },
+  "Facial & Skincare": {
+    icon: Smile,
+    gradient: "from-rose-400 to-pink-500",
+    description: "Cleanse, glow, and reset your skin.",
+  },
+  Makeup: {
+    icon: Brush,
+    gradient: "from-purple-500 to-indigo-500",
+    description: "Soft glam and event-ready finishes.",
+  },
+  "Manicure & Pedicure": {
+    icon: Hand,
+    gradient: "from-pink-500 to-rose-500",
+    description: "Polished nails and pampered hands and feet.",
+  },
+  "Spa & Massage": {
+    icon: Flower2,
+    gradient: "from-teal-400 to-emerald-500",
+    description: "Unwind with calming treatments and massage.",
+  },
+};
+
+const fallbackStyle: CategoryStyle = {
+  icon: Scissors,
+  gradient: "from-purple-500 to-purple-700",
+  description: "Explore services in this category.",
+};
 
 export default function ServiceCategories({
   categories,
 }: {
-  categories: string[];
+  categories: CategorySummary[];
 }) {
   return (
-    <section className="border-t border-purple-100 bg-purple-50/50">
-      <div className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-        <div className="max-w-xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white px-3.5 py-1.5 text-xs font-medium text-purple-700">
-            <Scissors className="size-3.5" />
-            Browse by category
-          </span>
-          <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-purple-950 sm:text-4xl">
-            Salon Service Categories
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-purple-700/70">
-            Explore our treatments and find the one that fits your day.
-          </p>
+    <section className="relative overflow-hidden border-t border-purple-900/40 bg-purple-950 text-white">
+      <div className="pointer-events-none absolute -left-24 -top-20 size-80 rounded-full bg-fuchsia-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-32 -right-20 size-96 rounded-full bg-purple-500/20 blur-3xl" />
+
+      <div className="relative mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-purple-100 backdrop-blur">
+              <Scissors className="size-3.5" />
+              Browse by category
+            </span>
+            <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Salon Service Categories
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-purple-100/70">
+              From fresh cuts to full pampering, find the right treatment for
+              your next salon day.
+            </p>
+          </div>
+
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-purple-100 transition hover:text-white"
+          >
+            See all services
+            <ArrowUpRight className="size-4" />
+          </Link>
         </div>
 
-        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((category) => (
-            <Link
-              key={category}
-              href={`/services?category=${encodeURIComponent(category)}`}
-              className="group flex items-center justify-between gap-3 rounded-2xl border border-purple-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-purple-300 hover:shadow-lg hover:shadow-purple-900/5"
-            >
-              <span className="flex items-center gap-3">
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-purple-50 text-purple-700">
-                  <Scissors className="size-4" />
-                </span>
-                <span className="text-sm font-semibold leading-snug text-purple-950">
-                  {category}
-                </span>
-              </span>
-              <ArrowUpRight className="size-4 shrink-0 text-purple-400 transition group-hover:text-purple-900" />
-            </Link>
-          ))}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((category) => {
+            const style = categoryStyles[category.name] ?? fallbackStyle;
+            const Icon = style.icon;
+
+            return (
+              <Link
+                key={category.name}
+                href={`/services?category=${encodeURIComponent(category.name)}`}
+                className="group relative flex min-h-52 flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/10 p-5 shadow-xl shadow-purple-950/20 backdrop-blur transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/15"
+              >
+                <div
+                  className={`pointer-events-none absolute -right-12 -top-12 size-32 rounded-full bg-gradient-to-br ${style.gradient} opacity-25 blur-2xl transition group-hover:opacity-45`}
+                />
+
+                <div className="relative flex items-start justify-between gap-3">
+                  <span
+                    className={`grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${style.gradient} text-white shadow-lg`}
+                  >
+                    <Icon className="size-5" />
+                  </span>
+                  <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-purple-100 backdrop-blur">
+                    {category.count} {category.count === 1 ? "service" : "services"}
+                  </span>
+                </div>
+
+                <div className="relative mt-8">
+                  <h3 className="font-display text-lg font-semibold leading-snug text-white">
+                    {category.name}
+                  </h3>
+                  <p className="mt-2 text-xs leading-relaxed text-purple-100/70">
+                    {style.description}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-purple-100 transition group-hover:text-white">
+                    Explore category
+                    <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

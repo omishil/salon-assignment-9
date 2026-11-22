@@ -5,6 +5,7 @@ import Banner from "@/components/home/Banner";
 import FeaturedServices from "@/components/home/featured-services";
 import HomeSectionsSkeleton from "@/components/home/home-sections-skeleton";
 import ServiceCategories from "@/components/home/service-categories";
+import WhySalonBook from "@/components/home/why-salonbook";
 import type { Service } from "@/components/services/service-card";
 
 const API_URL = process.env.SALON_API_URL ?? "http://localhost:5000";
@@ -33,12 +34,26 @@ async function HomeSections() {
     return null;
   }
 
-  const categories = Array.from(new Set(services.map((service) => service.category)));
+  const categoryCounts = services.reduce<Record<string, number>>(
+    (counts, service) => {
+      counts[service.category] = (counts[service.category] ?? 0) + 1;
+      return counts;
+    },
+    {},
+  );
+  const categories = Object.entries(categoryCounts).map(([name, count]) => ({
+    name,
+    count,
+  }));
 
   return (
     <>
       <FeaturedServices services={services.slice(0, 6)} />
       <ServiceCategories categories={categories} />
+      <WhySalonBook
+        serviceCount={services.length}
+        categoryCount={categories.length}
+      />
     </>
   );
 }

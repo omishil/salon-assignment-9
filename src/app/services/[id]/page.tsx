@@ -149,11 +149,14 @@ export default async function ServiceDetailPage({
               of the rest.
             </p>
             <Button
+              asChild
               size="lg"
               className="mt-4 h-12 w-full rounded-full bg-purple-900 text-white hover:bg-purple-800"
             >
-              <CalendarDays className="size-4" />
-              Book an Appointment
+              <Link href={`/services/${id}/book`}>
+                <CalendarDays className="size-4" />
+                Book an Appointment
+              </Link>
             </Button>
           </div>
         </div>
