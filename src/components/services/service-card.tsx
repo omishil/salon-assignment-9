@@ -25,7 +25,7 @@ export default function ServiceCard({ service }: { service: Service }) {
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition duration-500 group-hover:scale-105"
         />
-        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-purple-700 shadow-sm backdrop-blur">
+        <span className="absolute left-3 top-3 rounded-full bg-purple-900/95 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-md shadow-purple-950/20 backdrop-blur">
           {service.category}
         </span>
       </div>

@@ -20,11 +20,19 @@ type SortOption =
 
 export default function ServicesExplorer({
   services,
+  initialCategory,
 }: {
   services: Service[];
+  initialCategory?: string;
 }) {
   const [sort, setSort] = useState<SortOption>("default");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState(() => {
+    const available = new Set(services.map((service) => service.category));
+    return initialCategory && available.has(initialCategory)
+      ? initialCategory
+      : "All";
+  });
+  const [query, setQuery] = useState("");
 
   const categories = useMemo(
     () => ["All", ...Array.from(new Set(services.map((service) => service.category)))],
@@ -32,9 +40,19 @@ export default function ServicesExplorer({
   );
 
   const visibleServices = useMemo(() => {
-    const result = services.filter(
-      (service) => category === "All" || service.category === category,
-    );
+    const q = query.trim().toLowerCase();
+
+    const result = services.filter((service) => {
+      const matchesCategory =
+        category === "All" || service.category === category;
+      const matchesQuery =
+        !q ||
+        service.serviceName.toLowerCase().includes(q) ||
+        service.category.toLowerCase().includes(q) ||
+        service.description.toLowerCase().includes(q);
+
+      return matchesCategory && matchesQuery;
+    });
 
     switch (sort) {
       case "price-asc":
@@ -54,7 +72,7 @@ export default function ServicesExplorer({
     }
 
     return result;
-  }, [services, category, sort]);
+  }, [services, category, sort, query]);
 
   return (
     <div className="space-y-6">
@@ -66,6 +84,8 @@ export default function ServicesExplorer({
               type="search"
               aria-label="Search services"
               placeholder="Search services..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
               className="h-12 w-full rounded-xl border border-purple-100 bg-purple-50/50 pl-11 pr-4 text-sm text-purple-950 outline-none transition placeholder:text-purple-400 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-500/10"
             />
           </div>
@@ -123,12 +143,13 @@ export default function ServicesExplorer({
           </span>{" "}
           of {services.length} services
         </p>
-        {category !== "All" || sort !== "default" ? (
+        {category !== "All" || sort !== "default" || query ? (
           <button
             type="button"
             onClick={() => {
               setCategory("All");
               setSort("default");
+              setQuery("");
             }}
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-600 transition hover:text-purple-900"
           >
@@ -140,7 +161,9 @@ export default function ServicesExplorer({
 
       {visibleServices.length === 0 ? (
         <div className="rounded-2xl border border-purple-100 bg-purple-50/60 p-10 text-center text-purple-700">
-          No services found in this category.
+          {query
+            ? `No services match "${query}".`
+            : "No services found in this category."}
         </div>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

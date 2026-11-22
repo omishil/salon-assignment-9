@@ -9,6 +9,7 @@ import {
   Check,
   Clock3,
   Sparkles,
+  Tag,
 } from "lucide-react";
 
 import type { Service } from "@/components/services/service-card";
@@ -74,7 +75,8 @@ export default async function ServiceDetailPage({
             sizes="(min-width: 1024px) 55vw, 100vw"
             className="object-cover"
           />
-          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-800 shadow-sm backdrop-blur">
+          <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-purple-900 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-purple-950/25">
+            <Tag className="size-3.5" />
             {service.category}
           </span>
         </div>
@@ -92,7 +94,16 @@ export default async function ServiceDetailPage({
             {service.description}
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-4">
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-purple-200 bg-purple-50 p-4 shadow-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-purple-500">
+                Category
+              </p>
+              <p className="mt-1 flex items-center gap-2 text-base font-semibold text-purple-900">
+                <Tag className="size-4 shrink-0 text-purple-600" />
+                {service.category}
+              </p>
+            </div>
             <div className="rounded-2xl border border-purple-100 bg-white p-4 shadow-sm">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-purple-400">
                 Price

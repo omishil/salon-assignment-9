@@ -27,7 +27,11 @@ function Unavailable({ message }: { message: string }) {
   );
 }
 
-async function ServiceGrid() {
+async function ServiceGrid({
+  initialCategory,
+}: {
+  initialCategory?: string;
+}) {
   await connection();
 
   let services: Service[] = [];
@@ -51,10 +55,22 @@ async function ServiceGrid() {
     return <Unavailable message="No services are available yet." />;
   }
 
-  return <ServicesExplorer services={services} />;
+  return (
+    <ServicesExplorer
+      key={initialCategory ?? "All"}
+      services={services}
+      initialCategory={initialCategory}
+    />
+  );
 }
 
-export default function ServicesPage() {
+export default async function ServicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
       <div className="max-w-2xl">
@@ -84,7 +100,7 @@ export default function ServicesPage() {
             </div>
           }
         >
-          <ServiceGrid />
+          <ServiceGrid initialCategory={category} />
         </Suspense>
       </div>
     </main>
