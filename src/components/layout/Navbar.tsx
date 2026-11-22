@@ -117,7 +117,7 @@ export default function Navbar() {
     }
 
     toast.success("Signed out successfully");
-    router.push("/signin");
+    router.push("/");
     router.refresh();
   }
 

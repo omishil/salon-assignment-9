@@ -24,6 +24,7 @@ export default function SignUpForm() {
     const email = String(formData.get("email") ?? "").trim();
     const phone = String(formData.get("phone") ?? "").trim();
     const image = String(formData.get("image") ?? "").trim();
+    const role = String(formData.get("role") ?? "customer");
     const password = String(formData.get("password") ?? "");
     const confirmPassword = String(formData.get("confirm-password") ?? "");
 
@@ -40,6 +41,7 @@ export default function SignUpForm() {
       password,
       image: image || undefined,
       phone: phone || undefined,
+      role,
     });
 
     setIsSubmitting(false);
@@ -95,6 +97,41 @@ export default function SignUpForm() {
         hint="Optional — add a photo so your stylist can recognize you."
         disabled={isSubmitting}
       />
+      <fieldset className="space-y-2">
+        <legend className="text-sm font-medium text-purple-950">
+          Account type
+        </legend>
+        <div className="grid grid-cols-2 gap-2">
+          <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-purple-200 bg-[#fdfbff] px-3.5 py-2.5 text-sm transition has-checked:border-purple-500 has-checked:bg-purple-50 has-checked:ring-2 has-checked:ring-purple-500/10 has-disabled:cursor-not-allowed has-disabled:opacity-60">
+            <input
+              type="radio"
+              name="role"
+              value="customer"
+              defaultChecked
+              disabled={isSubmitting}
+              className="mt-0.5 size-4 shrink-0 accent-purple-700"
+            />
+            <span className="flex flex-col">
+              <span className="font-medium text-purple-950">Customer</span>
+              <span className="text-xs text-purple-500">Book appointments</span>
+            </span>
+          </label>
+          <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-purple-200 bg-[#fdfbff] px-3.5 py-2.5 text-sm transition has-checked:border-purple-500 has-checked:bg-purple-50 has-checked:ring-2 has-checked:ring-purple-500/10 has-disabled:cursor-not-allowed has-disabled:opacity-60">
+            <input
+              type="radio"
+              name="role"
+              value="admin"
+              disabled={isSubmitting}
+              className="mt-0.5 size-4 shrink-0 accent-purple-700"
+            />
+            <span className="flex flex-col">
+              <span className="font-medium text-purple-950">Admin</span>
+              <span className="text-xs text-purple-500">Manage the salon</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
       <AuthField
         id="password"
         label="Password"

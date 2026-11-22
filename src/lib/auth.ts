@@ -26,6 +26,13 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      // Temporary: public signup can pick a role. Replace with the Better Auth
+      // admin plugin before this app is deployed anywhere real.
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "customer",
+      },
     },
   },
   emailAndPassword: {
