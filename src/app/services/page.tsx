@@ -3,7 +3,8 @@ import { Suspense } from "react";
 import { connection } from "next/server";
 import { Sparkles } from "lucide-react";
 
-import ServiceCard, { type Service } from "@/components/services/service-card";
+import ServicesExplorer from "@/components/services/services-explorer";
+import type { Service } from "@/components/services/service-card";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -50,13 +51,7 @@ async function ServiceGrid() {
     return <Unavailable message="No services are available yet." />;
   }
 
-  return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {services.map((service) => (
-        <ServiceCard key={service._id} service={service} />
-      ))}
-    </div>
-  );
+  return <ServicesExplorer services={services} />;
 }
 
 export default function ServicesPage() {
