@@ -34,6 +34,7 @@ function rangesOverlap(
 export default function BookingForm({
   serviceId,
   serviceName,
+  hourlyRate,
   apiUrl,
   userId,
   userName,
@@ -42,6 +43,7 @@ export default function BookingForm({
 }: {
   serviceId: string;
   serviceName: string;
+  hourlyRate: number;
   apiUrl: string;
   userId?: string | null;
   userName?: string | null;
@@ -99,6 +101,15 @@ export default function BookingForm({
   const hasInvalidRange = Boolean(
     startTime && endTime && timeToMinutes(endTime) <= timeToMinutes(startTime),
   );
+
+  const bookedMinutes =
+    startTime && endTime && !hasInvalidRange
+      ? timeToMinutes(endTime) - timeToMinutes(startTime)
+      : 0;
+  const estimatedTotal =
+    bookedMinutes > 0
+      ? Math.round((hourlyRate * bookedMinutes) / 60)
+      : 0;
 
   const conflictingSlot = bookedSlots.find(
     (slot) =>
@@ -265,6 +276,15 @@ export default function BookingForm({
               Pick any start and end time that works for you.
             </p>
           )}
+
+          {bookedMinutes > 0 ? (
+            <p className="mt-2 text-sm font-semibold text-purple-900">
+              Estimated total: {estimatedTotal.toLocaleString()}
+              <span className="ml-2 text-xs font-normal text-purple-500">
+                {bookedMinutes} min × {hourlyRate.toLocaleString()}/hr
+              </span>
+            </p>
+          ) : null}
 
           {date ? (
             <div className="mt-3 rounded-lg border border-purple-100 bg-purple-50/60 p-3">

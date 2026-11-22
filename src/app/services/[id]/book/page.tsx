@@ -90,7 +90,7 @@ export default async function BookAppointmentPage({
 
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-purple-100 pt-4 text-sm">
           <p className="text-purple-700/70">
-            Price:{" "}
+            Hourly rate:{" "}
             <span className="font-semibold text-purple-950">
               {service.price.toLocaleString()}
             </span>
@@ -118,6 +118,7 @@ export default async function BookAppointmentPage({
           <BookingForm
             serviceId={service._id}
             serviceName={service.serviceName}
+            hourlyRate={service.price}
             apiUrl={API_URL}
             userId={session?.user?.id ?? null}
             userName={session?.user?.name ?? null}
