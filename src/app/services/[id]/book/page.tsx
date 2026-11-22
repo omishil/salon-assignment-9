@@ -116,7 +116,10 @@ export default async function BookAppointmentPage({
 
         <div className="mt-6">
           <BookingForm
+            serviceId={service._id}
             serviceName={service.serviceName}
+            apiUrl={API_URL}
+            userId={session?.user?.id ?? null}
             userName={session?.user?.name ?? null}
             userEmail={session?.user?.email ?? null}
             minDate={minDate}
