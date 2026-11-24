@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import AppointmentRow from "@/components/dashboard/appointment-row";
-import type { Appointment } from "@/components/dashboard/appointment-badges";
+import AppointmentRow from "@/components/dashboard/customer/appointment-row";
+import type { Appointment } from "@/components/dashboard/shared/appointment-badges";
 
 type Filter = "All" | "Pending" | "Confirmed" | "Cancelled";
 

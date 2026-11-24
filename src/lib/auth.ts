@@ -1,5 +1,7 @@
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 import { betterAuth } from "better-auth";
+import { admin } from "better-auth/plugins";
+import { adminAc, userAc } from "better-auth/plugins/admin/access";
 import { MongoClient } from "mongodb";
 
 const globalForMongo = globalThis as typeof globalThis & {
@@ -26,16 +28,19 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
-      // Temporary: public signup can pick a role. Replace with the Better Auth
-      // admin plugin before this app is deployed anywhere real.
-      role: {
-        type: "string",
-        required: false,
-        defaultValue: "customer",
-      },
     },
   },
   emailAndPassword: {
     enabled: true,
   },
+  plugins: [
+    admin({
+      defaultRole: "customer",
+      adminRoles: ["admin"],
+      roles: {
+        admin: adminAc,
+        customer: userAc,
+      },
+    }),
+  ],
 });

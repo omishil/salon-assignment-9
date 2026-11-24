@@ -103,6 +103,8 @@ export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
 
   const user = session?.user;
+  const dashboardHref =
+    user?.role === "admin" ? "/dashboard/admin" : "/dashboard/customer";
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
@@ -170,7 +172,7 @@ export default function Navbar() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard">
+                  <Link href={dashboardHref}>
                     <LayoutDashboard />
                     Dashboard
                   </Link>
@@ -265,7 +267,7 @@ export default function Navbar() {
                   </div>
                   <SheetClose asChild>
                     <Link
-                      href="/dashboard"
+                      href={dashboardHref}
                       className={cn(buttonVariants({ variant: "outline" }), "w-full")}
                     >
                       <LayoutDashboard className="size-4" />

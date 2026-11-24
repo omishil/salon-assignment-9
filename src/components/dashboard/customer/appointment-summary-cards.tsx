@@ -1,6 +1,6 @@
 import { CheckCircle2, Clock3, XCircle, type LucideIcon } from "lucide-react";
 
-import type { Appointment } from "@/components/dashboard/appointment-badges";
+import type { Appointment } from "@/components/dashboard/shared/appointment-badges";
 
 type StatusCard = {
   status: Appointment["appointmentStatus"];

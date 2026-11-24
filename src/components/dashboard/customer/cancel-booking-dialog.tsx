@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import {
   formatDate,
   type Appointment,
-} from "@/components/dashboard/appointment-badges";
+} from "@/components/dashboard/shared/appointment-badges";
 import { Button } from "@/components/ui/button";
 
 export default function CancelBookingDialog({

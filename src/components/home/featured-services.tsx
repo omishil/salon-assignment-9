@@ -33,7 +33,7 @@ export default function FeaturedServices({
         </Link>
       </div>
 
-      <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-9 sm:gap-6 lg:grid-cols-3">
         {services.map((service) => (
           <ServiceCard key={service._id} service={service} />
         ))}

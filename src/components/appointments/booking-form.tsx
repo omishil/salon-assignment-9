@@ -183,7 +183,7 @@ export default function BookingForm({
       }
 
       toast.success("Appointment requested successfully.");
-      router.push("/dashboard?booked=1");
+      router.push("/dashboard/customer?booked=1");
       router.refresh();
     } catch {
       toast.error("Could not reach the salon server.");

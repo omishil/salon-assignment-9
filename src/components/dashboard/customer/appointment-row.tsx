@@ -8,8 +8,8 @@ import {
   paymentStatusStyles,
   StatusBadge,
   type Appointment,
-} from "@/components/dashboard/appointment-badges";
-import CancelBookingDialog from "@/components/dashboard/cancel-booking-dialog";
+} from "@/components/dashboard/shared/appointment-badges";
+import CancelBookingDialog from "@/components/dashboard/customer/cancel-booking-dialog";
 
 function CancelledLabel({ className = "" }: { className?: string }) {
   return (

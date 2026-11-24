@@ -101,7 +101,7 @@ export default function ServiceCategories({
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-5 lg:grid-cols-4">
           {categories.map((category) => {
             const style = categoryStyles[category.name] ?? fallbackStyle;
             const Icon = style.icon;
@@ -110,28 +110,28 @@ export default function ServiceCategories({
               <Link
                 key={category.name}
                 href={`/services?category=${encodeURIComponent(category.name)}`}
-                className="group relative flex min-h-52 flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/10 p-5 shadow-xl shadow-purple-950/20 backdrop-blur transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/15"
+                className="group relative flex min-h-44 flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-white/10 p-4 shadow-xl shadow-purple-950/20 backdrop-blur transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/15 sm:min-h-52 sm:p-5"
               >
                 <div
                   className={`pointer-events-none absolute -right-12 -top-12 size-32 rounded-full bg-gradient-to-br ${style.gradient} opacity-25 blur-2xl transition group-hover:opacity-45`}
                 />
 
-                <div className="relative flex items-start justify-between gap-3">
+                <div className="relative flex items-start justify-between gap-2 sm:gap-3">
                   <span
-                    className={`grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${style.gradient} text-white shadow-lg`}
+                    className={`grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${style.gradient} text-white shadow-lg sm:size-12`}
                   >
-                    <Icon className="size-5" />
+                    <Icon className="size-4 sm:size-5" />
                   </span>
-                  <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-purple-100 backdrop-blur">
+                  <span className="rounded-full border border-white/15 bg-white/10 px-2 py-1 text-[10px] font-semibold text-purple-100 backdrop-blur sm:px-2.5 sm:text-[11px]">
                     {category.count} {category.count === 1 ? "service" : "services"}
                   </span>
                 </div>
 
-                <div className="relative mt-8">
-                  <h3 className="font-display text-lg font-semibold leading-snug text-white">
+                <div className="relative mt-6 sm:mt-8">
+                  <h3 className="font-display text-base font-semibold leading-snug text-white sm:text-lg">
                     {category.name}
                   </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-purple-100/70">
+                  <p className="mt-2 text-[11px] leading-relaxed text-purple-100/70 sm:text-xs">
                     {style.description}
                   </p>
                   <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-purple-100 transition group-hover:text-white">
