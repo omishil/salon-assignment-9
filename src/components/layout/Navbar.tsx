@@ -32,6 +32,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { authClient } from "@/lib/auth-client";
+import { ADMIN_DASHBOARD, CUSTOMER_DASHBOARD } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 const baseNavLinks = [
@@ -104,7 +105,7 @@ export default function Navbar() {
 
   const user = session?.user;
   const dashboardHref =
-    user?.role === "admin" ? "/dashboard/admin" : "/dashboard/customer";
+    user?.role === "admin" ? ADMIN_DASHBOARD : CUSTOMER_DASHBOARD;
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";

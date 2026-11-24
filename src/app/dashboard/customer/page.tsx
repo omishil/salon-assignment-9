@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import {
   CalendarDays,
   LayoutDashboard,
@@ -12,10 +13,10 @@ import type { Appointment } from "@/components/dashboard/shared/appointment-badg
 import AppointmentRow from "@/components/dashboard/customer/appointment-row";
 import AppointmentSummaryCards from "@/components/dashboard/customer/appointment-summary-cards";
 import BookingsTable from "@/components/dashboard/customer/bookings-table";
-import ProfilePanel, {
-  type ProfileUser,
-} from "@/components/dashboard/customer/profile-panel";
+import ProfilePanel from "@/components/dashboard/shared/profile-panel";
 import { auth } from "@/lib/auth";
+import { toProfileUser } from "@/lib/profile-user";
+import { ADMIN_DASHBOARD, CUSTOMER_DASHBOARD } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -28,19 +29,19 @@ const sidebarLinks = [
     label: "Overview",
     icon: LayoutDashboard,
     key: "overview",
-    href: "/dashboard/customer",
+    href: CUSTOMER_DASHBOARD,
   },
   {
     label: "My Bookings",
     icon: CalendarDays,
     key: "bookings",
-    href: "/dashboard/customer?view=bookings",
+    href: `${CUSTOMER_DASHBOARD}?view=bookings`,
   },
   {
     label: "Profile",
     icon: UserRound,
     key: "profile",
-    href: "/dashboard/customer?view=profile",
+    href: `${CUSTOMER_DASHBOARD}?view=profile`,
   },
 ];
 
@@ -54,27 +55,12 @@ export default async function DashboardPage({
     view === "bookings" || view === "profile" ? view : "overview";
 
   const session = await auth.api.getSession({ headers: await headers() });
-  const role = session?.user?.role ?? "customer";
 
-  const profileUser: ProfileUser | null = session?.user
-    ? {
-        id: session.user.id,
-        name: session.user.name,
-        email: session.user.email,
-        image: session.user.image ?? null,
-        phone:
-          (session.user as typeof session.user & { phone?: string | null })
-            .phone ?? null,
-        role,
-        createdAt:
-          session.user.createdAt instanceof Date
-            ? session.user.createdAt.toISOString()
-            : typeof session.user.createdAt === "string"
-              ? session.user.createdAt
-              : null,
-        emailVerified: session.user.emailVerified,
-      }
-    : null;
+  if (session?.user?.role === "admin") {
+    redirect(ADMIN_DASHBOARD);
+  }
+
+  const profileUser = toProfileUser(session);
 
   let appointments: Appointment[] = [];
 
@@ -105,7 +91,6 @@ export default async function DashboardPage({
             <p className="text-[11px] font-semibold uppercase tracking-wider text-purple-400">
               Account
             </p>
-            {/* Customer dashboard for now; `role` stays available for the admin dashboard later. */}
             <p className="mt-1 text-sm font-semibold text-purple-950">
               Customer dashboard
             </p>

@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
+import { ADMIN_DASHBOARD, CUSTOMER_DASHBOARD } from "@/lib/routes";
 
 type SearchParams = {
   view?: string | string[];
@@ -37,7 +38,7 @@ export default async function DashboardRedirect({
 
   const query = params.toString();
   const role = session?.user?.role;
-  const destination = role === "admin" ? "admin" : "customer";
+  const destination = role === "admin" ? ADMIN_DASHBOARD : CUSTOMER_DASHBOARD;
 
-  redirect(`/dashboard/${destination}${query ? `?${query}` : ""}`);
+  redirect(`${destination}${query ? `?${query}` : ""}`);
 }

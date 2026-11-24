@@ -7,6 +7,7 @@ import { Mail, UserRound } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { CUSTOMER_DASHBOARD } from "@/lib/routes";
 
 type BookedSlot = {
   startTime: string;
@@ -183,7 +184,7 @@ export default function BookingForm({
       }
 
       toast.success("Appointment requested successfully.");
-      router.push("/dashboard/customer?booked=1");
+      router.push(`${CUSTOMER_DASHBOARD}?booked=1`);
       router.refresh();
     } catch {
       toast.error("Could not reach the salon server.");
