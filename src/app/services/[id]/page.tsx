@@ -39,7 +39,7 @@ export default async function ServiceDetailPage({
   let service: Service | undefined;
 
   try {
-    const response = await fetch(`${API_URL}/services`, {
+    const response = await fetch(`${API_URL}/services?status=Active`, {
       cache: "no-store",
     });
 

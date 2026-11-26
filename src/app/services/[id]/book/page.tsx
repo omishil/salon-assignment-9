@@ -27,7 +27,7 @@ export default async function BookAppointmentPage({
   let service: Service | undefined;
 
   try {
-    const response = await fetch(`${API_URL}/services`, {
+    const response = await fetch(`${API_URL}/services?status=Active`, {
       cache: "no-store",
     });
 

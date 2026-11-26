@@ -1,9 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { EllipsisVertical, Plus } from "lucide-react";
+import { toast } from "sonner";
 
+import {
+  updateServiceStatus,
+  type ServiceStatus,
+} from "@/app/dashboard/admin/actions";
 import DeleteServiceDialog from "@/components/dashboard/admin/delete-service-dialog";
 import type { Service } from "@/components/services/service-card";
 import { Button } from "@/components/ui/button";
@@ -32,6 +38,28 @@ function statusClasses(status: string | undefined) {
 }
 
 export default function ManageServices({ services }: { services: Service[] }) {
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  async function handleStatusChange(service: Service, status: ServiceStatus) {
+    if (updatingId) return;
+
+    setUpdatingId(service._id);
+    try {
+      const result = await updateServiceStatus(service._id, status);
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(result.message);
+    } catch {
+      toast.error("Failed to update service status. Please try again.");
+    } finally {
+      setUpdatingId(null);
+    }
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-purple-100 bg-white shadow-sm">
       <div className="flex flex-col gap-4 border-b border-purple-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -122,15 +150,38 @@ export default function ManageServices({ services }: { services: Service[] }) {
                             variant="outline"
                             size="sm"
                             className="gap-1.5"
+                            disabled={updatingId === service._id}
                             aria-label={`Change status for ${service.serviceName}`}
                           >
                             <EllipsisVertical className="size-4" />
-                            <span className="hidden sm:inline">Status</span>
+                            <span className="hidden sm:inline">
+                              {updatingId === service._id ? "Saving..." : "Status"}
+                            </span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40">
-                          <DropdownMenuItem disabled>Activate</DropdownMenuItem>
-                          <DropdownMenuItem disabled>Deactivate</DropdownMenuItem>
+                          <DropdownMenuItem
+                            disabled={
+                              updatingId === service._id ||
+                              service.status?.toLowerCase() === "active"
+                            }
+                            onSelect={() => {
+                              void handleStatusChange(service, "Active");
+                            }}
+                          >
+                            Activate
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            disabled={
+                              updatingId === service._id ||
+                              service.status?.toLowerCase() === "inactive"
+                            }
+                            onSelect={() => {
+                              void handleStatusChange(service, "Inactive");
+                            }}
+                          >
+                            Deactivate
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
 

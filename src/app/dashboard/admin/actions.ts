@@ -167,3 +167,69 @@ export async function deleteService(id: string): Promise<DeleteServiceResult> {
     };
   }
 }
+
+export type ServiceStatus = "Active" | "Inactive";
+
+export type UpdateServiceStatusResult =
+  | { success: true; message: string }
+  | { success: false; message: string };
+
+export async function updateServiceStatus(
+  id: string,
+  status: ServiceStatus,
+): Promise<UpdateServiceStatusResult> {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session) {
+    return {
+      success: false,
+      message: "You must be signed in to update a service.",
+    };
+  }
+
+  if (session.user.role !== "admin") {
+    return { success: false, message: "Only admins can update services." };
+  }
+
+  if (!/^[0-9a-fA-F]{24}$/.test(id)) {
+    return { success: false, message: "Invalid service id." };
+  }
+
+  if (status !== "Active" && status !== "Inactive") {
+    return { success: false, message: "Invalid service status." };
+  }
+
+  try {
+    const response = await fetch(
+      `${API_URL}/services/${encodeURIComponent(id)}/status`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+        cache: "no-store",
+      },
+    );
+
+    const payload = (await response.json().catch(() => ({}))) as {
+      success?: boolean;
+      message?: string;
+    };
+
+    if (!response.ok || !payload.success) {
+      return {
+        success: false,
+        message: payload.message ?? "Failed to update service status.",
+      };
+    }
+
+    revalidatePath(ADMIN_DASHBOARD);
+    revalidatePath("/services");
+
+    return { success: true, message: `Service marked ${status}.` };
+  } catch {
+    return {
+      success: false,
+      message: "Could not reach the salon service API. Please try again.",
+    };
+  }
+}

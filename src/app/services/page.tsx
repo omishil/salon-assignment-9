@@ -37,7 +37,7 @@ async function ServiceGrid({
   let services: Service[] = [];
 
   try {
-    const response = await fetch(`${API_URL}/services`, {
+    const response = await fetch(`${API_URL}/services?status=Active`, {
       cache: "no-store",
     });
 
