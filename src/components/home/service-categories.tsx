@@ -11,6 +11,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import type { ServiceCategory } from "@/lib/service-categories";
+
 export type CategorySummary = {
   name: string;
   count: number;
@@ -58,7 +60,7 @@ const categoryStyles: Record<string, CategoryStyle> = {
     gradient: "from-teal-400 to-emerald-500",
     description: "Unwind with calming treatments and massage.",
   },
-};
+} satisfies Record<ServiceCategory, CategoryStyle>;
 
 const fallbackStyle: CategoryStyle = {
   icon: Scissors,
