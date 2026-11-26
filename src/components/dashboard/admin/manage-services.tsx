@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { EllipsisVertical, Plus, Trash2 } from "lucide-react";
+import { EllipsisVertical, Plus } from "lucide-react";
 
+import DeleteServiceDialog from "@/components/dashboard/admin/delete-service-dialog";
 import type { Service } from "@/components/services/service-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -133,15 +134,7 @@ export default function ManageServices({ services }: { services: Service[] }) {
                         </DropdownMenuContent>
                       </DropdownMenu>
 
-                      <Button
-                        variant="destructive"
-                        size="icon-sm"
-                        aria-label={`Delete ${service.serviceName}`}
-                        disabled
-                        title="Delete (coming soon)"
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
+                      <DeleteServiceDialog service={service} />
                     </div>
                   </td>
                 </tr>
